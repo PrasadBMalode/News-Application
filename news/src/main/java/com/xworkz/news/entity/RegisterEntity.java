@@ -48,15 +48,14 @@ public class RegisterEntity {
     @Column(name="otp")
     private String otp;
 
-<<<<<<< HEAD
+
     @Column(name = "no_Of_Attempts")
     private Integer noOfAttempts;
 
     @Column(name = "is_Account_Locked")
     private boolean isAccountLocked;
 
-=======
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
+
     @Column(name = "file_name")
     private String fileName;
 
