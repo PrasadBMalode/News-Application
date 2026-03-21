@@ -1,7 +1,7 @@
 FROM maven:3.9.9-eclipse-temurin-8 AS build
 
 WORKDIR /app
-COPY . .
+COPY news /app
 RUN mvn clean package
 
 FROM tomcat:9.0
