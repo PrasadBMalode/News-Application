@@ -25,11 +25,8 @@ public class EmailSent {
     
     public String mailSend(String email){
         SimpleMailMessage message = new SimpleMailMessage();
-<<<<<<< HEAD
         message.setFrom("amith.s.xworkz@gmail.com");
-=======
         message.setFrom("prasadbm666@gmail.com");
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
         message.setTo(email);
         message.setSubject("Forgot Password Otp");
         String generatedOtp=otpGeneretor();

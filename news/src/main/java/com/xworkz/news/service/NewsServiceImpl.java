@@ -4,10 +4,7 @@ import com.xworkz.news.dto.LoginDto;
 import com.xworkz.news.dto.RegisterDto;
 import com.xworkz.news.entity.LoginEntity;
 import com.xworkz.news.entity.RegisterEntity;
-<<<<<<< HEAD
 import com.xworkz.news.repository.LoginRepository;
-=======
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
 import com.xworkz.news.repository.NewsRepository;
 import com.xworkz.news.util.EmailSent;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +23,9 @@ public class NewsServiceImpl implements NewsService{
     NewsRepository newsRepository;
 
     @Autowired
-<<<<<<< HEAD
     LoginRepository loginRepository;
 
     @Autowired
-=======
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
     EmailSent emailSent;
 
     @Override
@@ -45,10 +39,9 @@ public class NewsServiceImpl implements NewsService{
             registerationDto.setFileContentType("image/jpg");
             RegisterEntity registerEntity = new RegisterEntity();
             BeanUtils.copyProperties(registerationDto, registerEntity);
-<<<<<<< HEAD
-=======
+
             System.out.println(registerEntity);
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
+
             boolean isSaved = newsRepository.register(registerEntity);
             if (isSaved == true) {
                 emailSent.mimeMessage(registerationDto.getEmail());
@@ -91,7 +84,6 @@ public class NewsServiceImpl implements NewsService{
         RegisterEntity registerEntity = new RegisterEntity();
         if (registerationDto.getEmail() != null) {
             if (!(registerationDto.getPassword().equals(loginDto.getPassword()))) {
-<<<<<<< HEAD
                 if (registerationDto.getNoOfAttempts() == null) {
                     registerationDto.setNoOfAttempts(Integer.valueOf(0));
                 }
@@ -101,9 +93,8 @@ public class NewsServiceImpl implements NewsService{
                 }
                 BeanUtils.copyProperties(registerationDto, registerEntity);
                 loginRepository.updateProfile(registerEntity);
-=======
+
                 BeanUtils.copyProperties(registerationDto, registerEntity);
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
                 return "invalid password";
             } else {
                 loginDto.setLoginDate(LocalDate.now().toString());
