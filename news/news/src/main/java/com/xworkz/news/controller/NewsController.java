@@ -74,13 +74,6 @@ public class NewsController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("loginErrMsg", "Please enter valid data");
             return "login";
-<<<<<<< HEAD
-        }else if (registerationDto.isAccountLocked()) {
-            model.addAttribute("blockedMessage", "Account blocked can't login reset your password");
-            model.addAttribute("emailDto", registerationDto);
-            return "emailOtp";
-=======
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
         } else {
             String message = newsService.loginDetails(loginDto);
             if (message.equals("invalid password")) {
@@ -103,10 +96,7 @@ public class NewsController {
     public String getUserPage(String email, Model model, HttpSession httpSession) {
         RegisterDto registerationDto = newsService.findByEmailInService(email);
         httpSession.setAttribute("email",registerationDto.getEmail());
-<<<<<<< HEAD
-=======
         System.err.println(registerationDto);
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
         model.addAttribute("details", registerationDto);
         model.addAttribute("apiKey","29ecaa96fb3b4ab6b826c3c780e4a93d");
         return "userPage";

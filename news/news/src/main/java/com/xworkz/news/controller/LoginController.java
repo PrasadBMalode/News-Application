@@ -66,10 +66,6 @@ public class LoginController {
             boolean isPasswordUpdated = loginService.updatePasswordInService(email, password, confirmPassword);
             if (isPasswordUpdated) {
                 model.addAttribute("success","password reset successfull");
-<<<<<<< HEAD
-                model.addAttribute("enteredEmail",email);
-=======
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
                 return "login";
             }
         }
@@ -105,10 +101,7 @@ public class LoginController {
 
     @GetMapping("getImage/{fileName}")
     public void viewImage(@PathVariable String fileName, Model model, HttpServletResponse httpServletResponse) {
-<<<<<<< HEAD
-=======
         System.out.println(fileName);
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
         File file = new File(path + fileName);
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
@@ -118,10 +111,7 @@ public class LoginController {
             model.addAttribute("image",servletOutputStream);
             httpServletResponse.flushBuffer();
         } catch (IOException e) {
-<<<<<<< HEAD
-=======
             System.out.println(e.getMessage());
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
             throw new RuntimeException(e);
         }
 

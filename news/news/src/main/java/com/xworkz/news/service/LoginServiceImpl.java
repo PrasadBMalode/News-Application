@@ -19,11 +19,7 @@ import java.nio.file.Paths;
 @Slf4j
 public class LoginServiceImpl implements LoginService{
 
-<<<<<<< HEAD
-    private static String UPLOADED_FOLDER = "J://News Picture//";
-=======
     private static String UPLOADED_FOLDER = "J://News Picture";
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
 
 
     @Autowired
@@ -68,11 +64,6 @@ public class LoginServiceImpl implements LoginService{
         if (registerationDto != null) {
             if (password.equals(confirmPassword)) {
                 registerationDto.setPassword(password);
-<<<<<<< HEAD
-                registerationDto.setNoOfAttempts(0);
-                registerationDto.setAccountLocked(false);
-=======
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
                 RegisterEntity registerEntity = new RegisterEntity();
                 BeanUtils.copyProperties(registerationDto, registerEntity);
                 loginRepository.updateProfile(registerEntity);

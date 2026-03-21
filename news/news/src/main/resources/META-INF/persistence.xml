@@ -6,11 +6,7 @@
     <persistence-unit name="com.xworkz">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-<<<<<<< HEAD
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/news"/>
-=======
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://Localhost:3306/news"/>
->>>>>>> 50ebb1f6491baf8cfdf8d82de5a1fb00fc581fea
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value="Prasad@123"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
