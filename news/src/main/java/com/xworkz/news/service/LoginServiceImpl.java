@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 @Slf4j
 public class LoginServiceImpl implements LoginService{
 
-    private static String UPLOADED_FOLDER = "D://Project//file_upload//";
+    private static String UPLOADED_FOLDER = "J://News Picture//";
 
 
     @Autowired

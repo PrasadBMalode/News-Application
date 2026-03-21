@@ -35,8 +35,8 @@ public class NewsServiceImpl implements NewsService{
         if (registerEntity1 != null || registerEntity2 != null) {
             return null;
         } else if (registerationDto.getPassword().equals(registerationDto.getConfirmPassword())) {
-            registerationDto.setFileName("dummy.png");
-            registerationDto.setFileContentType("image/png");
+            registerationDto.setFileName("dummy.jpg");
+            registerationDto.setFileContentType("image/jpg");
             RegisterEntity registerEntity = new RegisterEntity();
             BeanUtils.copyProperties(registerationDto, registerEntity);
             boolean isSaved = newsRepository.register(registerEntity);

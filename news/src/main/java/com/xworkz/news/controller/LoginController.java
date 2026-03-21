@@ -18,7 +18,7 @@ import java.io.*;
 @RequestMapping("/")
 public class LoginController {
 
-    private static String path = "D://Project//file_upload//";
+    private static String path = "J://News Picture//";
 
     @Autowired
     NewsService newsService;
