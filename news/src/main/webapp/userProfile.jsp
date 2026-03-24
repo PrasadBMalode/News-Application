@@ -1,254 +1,240 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-  <%@ page isELIgnored="false" %>
+    <%@ page isELIgnored="false" %>
 
-    <html>
+        <!DOCTYPE html>
+        <html>
 
-    <head>
-      <title>Profile</title>
-      <link rel="icon" href="https://www.x-workz.in/Logo.png">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    </head>
+        <head>
+            <title>Profile</title>
 
-    <body>
+            <link rel="icon" href="https://www.x-workz.in/Logo.png">
 
+            <!-- Bootstrap -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
-      <header class="header bg-dark text-white">
-        <div class="container-fluid">
-          <div class="row align-items-center">
-            <div class="col-auto">
-              <img src="https://www.x-workz.in/Logo.png" alt="Logo" height="50px">
+            <!-- Bootstrap Icons -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+            <!-- Axios -->
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        </head>
+
+        <body style="background: linear-gradient(to right, #eef2f3, #dfe9f3);">
+
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg bg-dark shadow-sm">
+                <div class="container-fluid">
+                    <img src="https://x-workz.com/Logo.png" height="70">
+                </div>
+            </nav>
+
+            <!-- Profile Section -->
+            <div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+
+                <div class="card shadow-lg border-0 rounded-4 p-4" style="width: 650px;">
+
+                    <h3 class="text-center text-primary mb-3">My Profile</h3>
+
+                    <form action="updateUserDetails" method="post" enctype="multipart/form-data">
+
+                        <!-- Profile Image -->
+                        <div class="text-center mb-4">
+                            <img src="getImage/${dto.fileName}"
+                                onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';"
+                                class="rounded-circle shadow" style="height:150px;width:150px;object-fit:cover;">
+                        </div>
+
+                        <!-- Hidden ID -->
+                        <input type="hidden" id="id" name="id" value="${dto.id}">
+
+                        <!-- Name -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-person"></i> First Name</label>
+                                <input type="text" class="form-control" id="fName" name="fname"
+                                    onchange="fNameValidation()" value="${dto.fname}" required>
+                                <span id="firstName"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-person"></i> Last Name</label>
+                                <input type="text" class="form-control" id="lName" name="lname"
+                                    onchange="lNameValidation()" value="${dto.lname}" required>
+                                <span id="lastName"></span>
+                            </div>
+                        </div>
+
+                        <!-- Email + Phone -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-envelope"></i> Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="${dto.email}"
+                                    readonly>
+                                <span id="emailExists"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-telephone"></i> Contact Number</label>
+                                <input type="number" class="form-control" id="phNo" name="phNo" onblur="phone()"
+                                    value="${dto.phNo}" required>
+                                <span id="ph"></span>
+                            </div>
+                        </div>
+
+                        <!-- DOB + City -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-calendar"></i> Date Of Birth</label>
+                                <input type="date" class="form-control" id="dob" name="dob" value="${dto.dob}" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-geo-alt"></i> City</label>
+                                <input type="text" class="form-control" id="city" name="city" onchange="cityName()"
+                                    value="${dto.city}" required>
+                                <span id="cityName"></span>
+                            </div>
+                        </div>
+
+                        <!-- Pincode + File -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-pin-map"></i> Pincode</label>
+                                <input type="number" class="form-control" id="pinCode" name="pinCode"
+                                    onchange="pinCodeValid()" value="${dto.pinCode}" required>
+                                <span id="pin"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="bi bi-image"></i> Profile Image</label>
+                                <input type="file" class="form-control" name="file" id="fileInput"
+                                    onchange="validateFileSize()">
+                                <span id="fileSizeError" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Hidden Gender -->
+                        <input type="radio" id="male" name="gender" value="male" ${dto.gender=='male' ? 'checked' : '' }
+                            hidden>
+                        <input type="radio" id="female" name="gender" value="female" ${dto.gender=='female' ? 'checked'
+                            : '' } hidden>
+
+                        <!-- Hidden Password -->
+                        <input type="password" id="password" name="password" value="${dto.password}" hidden>
+                        <input type="password" id="confirmPassword" name="confirmPassword" value="${dto.password}"
+                            hidden>
+
+                        <!-- Buttons -->
+                        <div class="text-center mt-3">
+                            <button id="button" type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-pencil-square"></i> Update
+                            </button>
+
+                            <a href="getUserPage?email=${dto.email}" class="btn btn-outline-secondary ms-2">
+                                <i class="bi bi-arrow-left"></i> Back
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
             </div>
-            <div class="col text-center d-flex justify-content-center">
-              <h1 class="my-0">X-Workz</h1>
-            </div>
-          </div>
-        </div>
-      </header>
 
+            <!-- Footer -->
+            <footer class="bg-dark text-white text-center py-2">
+                <small> Copyright &copy; 2025, All Rights Reserved</small>
+            </footer>
 
-      <div class="container my-4" style="width: 35%;">
-        <div class="card form-card mb-3" style="background-color: #C0C0C0; color: #333;">
-          <div class="p-3 mb-2" style="background-color: #B0B0B0; color: #333;">
+            <!-- Your Original JS (UNCHANGED) -->
+            <script>
 
-            <form action="updateUserDetails" method="post" enctype="multipart/form-data">
-<div class="text-center">
-                <img src="getImage/${dto.fileName}" style="height: 150px;width:150px;border-radius: 50px;">
-              </div>
-              <div style="margin-top: 8%;">
-                <div class="row">
-                  <input type="text" class="form-control" id="id" placeholder="Enter your id" name="id"
-                    value="${dto.id}" hidden>
+                function fNameValidation() {
+                    var names = document.getElementById("fName").value;
+                    var button = document.getElementById("button");
 
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label">First name</label>
-                    <input type="text" class="form-control" id="fName" placeholder="Enter your first name"
-                      onchange="fNameValidation()" name="fname" value="${dto.fname}" required>
-                    <span id="firstName"></span>
-                  </div>
+                    if (names.trim() !== '' && names.length > 3 && names.length <= 25) {
+                        document.getElementById("firstName").innerHTML = "";
+                        button.removeAttribute("Disabled");
+                    } else {
+                        document.getElementById("firstName").innerHTML = "<span style='color:red;'>must be 4 & 25</span>";
+                        button.setAttribute("Disabled", "");
+                    }
+                }
 
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label">Last name</label>
-                    <input type="text" class="form-control" id="lName" placeholder="Enter your last name"
-                      onchange="lNameValidation()" name="lname" value="${dto.lname}" required>
-                    <span id="lastName"></span>
-                  </div>
-                </div>
+                function lNameValidation() {
+                    var names = document.getElementById("lName").value;
+                    var button = document.getElementById("button");
 
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email"
-                      value="${dto.email}" readonly>
-                    <span id="emailExists"></span>
-                  </div>
+                    if (names.trim() !== '' && names.length > 0 && names.length <= 25) {
+                        document.getElementById("lastName").innerHTML = "";
+                        button.removeAttribute("Disabled");
+                    } else {
+                        document.getElementById("lastName").innerHTML = "<span style='color:red;'>must be 1 & 25</span>";
+                        button.setAttribute("Disabled", "");
+                    }
+                }
 
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label ">Contact Number</label>
-                    <input type="number" class="form-control" id="phNo" placeholder="Enter your contact number"
-                      name="phNo" onblur="phone()" value="${dto.phNo}" required>
-                    <span id="ph"></span>
-                  </div>
-                </div>
+                function cityName() {
+                    var names = document.getElementById("city").value;
+                    var button = document.getElementById("button");
 
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label">Date Of Birth</label>
-                    <input type="date" class="form-control" id="dob" placeholder="Enter your dob" name="dob"
-                      value="${dto.dob}" required>
-                  </div>
+                    if (names.trim() !== '' && names.length > 4 && names.length <= 25) {
+                        document.getElementById("cityName").innerHTML = "";
+                        button.removeAttribute("Disabled");
+                    } else {
+                        document.getElementById("cityName").innerHTML = "<span style='color:red;'>must be 4 & 25</span>";
+                        button.setAttribute("Disabled", "");
+                    }
+                }
 
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label">City</label>
-                    <input type="text" class="form-control" id="city" required placeholder="Enter your city"
-                      onchange="cityName()" name="city" value="${dto.city}">
-                    <span id="cityName"></span>
-                  </div>
-                </div>
+                function pinCodeValid() {
+                    var names = document.getElementById("pinCode").value;
+                    var button = document.getElementById("button");
 
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label">Pincode</label>
-                    <input type="number" class="form-control" id="pinCode" required placeholder="Enter your pincode"
-                      name="pinCode" onchange="pinCodeValid()" value="${dto.pinCode}">
-                    <span id="pin"></span>
-                  </div>
+                    if (names.trim() !== '' && names.length == 6) {
+                        document.getElementById("pin").innerHTML = "";
+                        button.removeAttribute("Disabled");
+                    } else {
+                        document.getElementById("pin").innerHTML = "<span style='color:red;'>Invalid Pincode</span>";
+                        button.setAttribute("Disabled", "");
+                    }
+                }
 
-                  <input type="radio" id="male" name="gender" value="male" ${dto.gender=='male' ? 'checked' : '' }
-                    hidden>
-                  <input type="radio" id="female" name="gender" value="female" ${dto.gender=='female' ? 'checked' : '' }
-                    hidden>
+                const phone = async () => {
+                    let phoneNumber = document.getElementById("phNo").value
+                    var button = document.getElementById("button");
+                    const response = await axios("http://localhost:8080/metro/isPhNoExists?phNo=" + phoneNumber)
 
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label">Profile</label>
-                    <input type="file" name="file" id="fileInput" onchange="validateFileSize()" />
-                    <span id="fileSizeError" style="color:red;"></span>
-                  </div>
-                </div>
+                    if (phoneNumber.length < 10 || phoneNumber.length > 10) {
+                        document.getElementById("ph").innerHTML = "<span style='color:red;'>invalid phone number</span>";
+                        button.setAttribute("disabled", "");
+                    } else if (response.data == "phone number not exists" || phoneNumber == "${dto.phNo}") {
+                        document.getElementById("ph").innerHTML = "<span style='color:green;'>valid</span>";
+                        button.removeAttribute("disabled");
+                    } else {
+                        document.getElementById("ph").innerHTML = "<span style='color:red;'>phone number already exists</span>";
+                        button.setAttribute("disabled", "");
+                    }
+                }
 
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <input type="password" class="form-control" id="password" required placeholder="Enter your password"
-                      name="password" value="${dto.password}" hidden>
-                    <span id="pass"></span>
-                  </div>
+                const dto = { gender: "${dto.gender}" };
+                document.getElementById(dto.gender).checked = true;
 
-                  <div class="col-md-6 mb-3">
-                    <input type="password" class="form-control" id="confirmPassword" required
-                      placeholder="Confirm your password" name="confirmPassword" value="${dto.password}" hidden>
-                    <span id="confirmPass"></span>
-                  </div>
-                </div>
+                function validateFileSize() {
+                    const fileInput = document.getElementById('fileInput');
+                    const file = fileInput.files[0];
+                    const maxSizeInBytes = 2 * 1024 * 1024;
 
-                <div class="row">
-                  <div class="text-center">
-                    <button id="button" type="submit" class="btn btn-primary">Edit</button>
-                    <button type="button" class="btn btn-primary">
-                      <a href="getUserPage?email=${dto.email}" style="text-decoration: none; color: white;">Back</a>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
+                    if (file && file.size > maxSizeInBytes) {
+                        document.getElementById('fileSizeError').textContent = "file size exceeds 2mb limit.";
+                        document.getElementById("button").setAttribute("disabled", "");
+                    } else {
+                        document.getElementById('fileSizeError').textContent = "";
+                        document.getElementById("button").removeAttribute("disabled");
+                    }
+                }
 
-          </div>
-        </div>
-      </div>
+            </script>
 
-      <!-- Footer -->
-      <footer class="bg-dark text-white text-center py-3 fixed-bottom border-top">
-          <div class="container-fluid">
-            <p class="mb-0">Copyright &copy; 2025, All Rights Reserved</p>
-          </div>
-        </footer>
+        </body>
 
-      <script>
-        function fNameValidation() {
-          var names = document.getElementById("fName").value;
-          console.log(names)
-          var button = document.getElementById("button");
-
-          if (names.trim() !== '' && names.length > 3 && names.length <= 25) {
-            document.getElementById("firstName").innerHTML = "";
-            button.removeAttribute("Disabled");
-          } else {
-            document.getElementById("firstName").innerHTML = "<span style='color:red;'>must be 4 & 25</span>";
-            button.setAttribute("Disabled", "");
-            return;
-          }
-
-        }
-
-        function lNameValidation() {
-          var names = document.getElementById("lName").value;
-          console.log(names)
-          var button = document.getElementById("button");
-          if (names.trim() !== '' && names.length > 0 && names.length <= 25) {
-            document.getElementById("lastName").innerHTML = "";
-            button.removeAttribute("Disabled");
-          } else {
-            document.getElementById("lastName").innerHTML = "<span style='color:red;'>must be 1 & 25</span>";
-            button.setAttribute("Disabled", "");
-            return;
-          }
-
-        }
-
-        function cityName() {
-          var names = document.getElementById("city").value;
-          console.log(names)
-          var button = document.getElementById("button");
-
-          if (names.trim() !== '' && names.length > 4 && names.length <= 25) {
-            document.getElementById("cityName").innerHTML = "";
-            button.removeAttribute("Disabled");
-          } else {
-            document.getElementById("cityName").innerHTML = "<span style='color:red;'>must be 4 & 25</span>";
-            button.setAttribute("Disabled", "");
-            return;
-          }
-
-        }
-
-        function pinCodeValid() {
-          var names = document.getElementById("pinCode").value;
-          console.log(names.length)
-          var button = document.getElementById("button");
-
-          if (names.trim() !== '' && names.length == 6) {
-            document.getElementById("pin").innerHTML = "";
-            button.removeAttribute("Disabled");
-          } else {
-            document.getElementById("pin").innerHTML = "<span style='color:red;'>Invalid Pincode</span>";
-            button.setAttribute("Disabled", "");
-            console.log("invalid")
-            return;
-          }
-
-        }
-
-        const phone = async () => {
-
-          let phoneNumber = document.getElementById("phNo").value
-          var button = document.getElementById("button");
-          const response = await axios("http://localhost:8080/metro/isPhNoExists?phNo=" + phoneNumber)
-
-          if (phoneNumber.length < 10 || phoneNumber.length > 10) {
-            document.getElementById("ph").innerHTML = "<span style='color:red;'>invalid phone number</span>";
-            button.setAttribute("disabled", "");
-          } else if (response.data == "phone number not exists" || phoneNumber == "${dto.phNo}") {
-            console.log(phoneNumber)
-            document.getElementById("ph").innerHTML = "<span style='color:green;'>valid</span>";
-            button.removeAttribute("disabled");
-          } else {
-            document.getElementById("ph").innerHTML = "<span style='color:red;'>phone number already exists</span>";
-            button.setAttribute("disabled", "");
-          }
-          console.log(response.data)
-        }
-
-
-        const dto = { gender: "${dto.gender}" };
-        document.getElementById(dto.gender).checked = true;
-
-        function validateFileSize() {
-          const fileInput = document.getElementById('fileInput');
-          const file = fileInput.files[0];
-          const maxSizeInMB = 2;
-          const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
-          const errorMessageElement = document.getElementById('fileSizeError');
-
-          if (file.size > maxSizeInBytes) {
-            errorMessageElement.textContent = `file size exceeds 2mb limit.`;
-            document.getElementById("button").setAttribute("disabled", "");
-          } else {
-            errorMessageElement.textContent = "";
-            document.getElementById("button").removeAttribute("disabled");
-          }
-
-        }
-      </script>
-
-    </body>
-
-    </html>
+        </html>

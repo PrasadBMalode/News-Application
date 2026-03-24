@@ -1,125 +1,123 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-  <%@ page isELIgnored="false" %>
+<%@ page isELIgnored="false" %>
 
-    <html>
+<!DOCTYPE html>
+<html>
 
-    <head>
-      <title>Login</title>
-      <link rel="icon" href="https://www.x-workz.in/Logo.png">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    </head>
+<head>
+  <title>Login</title>
 
-    <body>
+  <link rel="icon" href="https://www.x-workz.in/Logo.png">
 
-      <header class="header bg-dark">
-        <div class="container-fluid">
-          <div class="row align-items-center">
-            <div class="col-auto">
-              <img src="https://www.x-workz.in/Logo.png" alt="Logo" height="50px">
-            </div>
-            <div class="col text-center d-flex justify-content-center">
-              <h1 class="my-0 text-white">X-Workz</h1>
-            </div>
-            <div class="col-auto d-flex">
-              <button type="button" class="btn btn-primary me-2">
-                <a href="indexPage" style="text-decoration: none; color: white;">Home</a>
-              </button>
-              <button type="button" class="btn btn-primary me-2">
-                              <a href="registerPage" style="text-decoration: none; color: white;">Register</a>
-                            </button>
-            </div>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body style="background: linear-gradient(to right, #eef2f3, #dfe9f3);">
+
+  <nav class="navbar navbar-expand-lg bg-dark shadow-sm">
+    <div class="container-fluid">
+
+      <!-- LEFT: Logo -->
+      <img src="https://x-workz.com/Logo.png" height="70">
+
+      <!-- RIGHT: Buttons -->
+      <div class="ms-auto">
+        <a href="indexPage" class="btn btn-outline-primary me-2">Home</a>
+        <a href="registerPage" class="btn btn-primary">Register</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
+
+    <div class="row shadow-lg rounded-4 overflow-hidden" style="width: 900px; background: white;">
+
+      <!-- Left Image Section -->
+      <div class="col-md-6 d-none d-md-block p-0">
+        <img src="https://tse3.mm.bing.net/th?id=OIP.OmzVkphEnjBkUIyGvRPj4gHaD-&pid=Api&P=0&h=180"
+             class="img-fluid h-100 w-100" style="object-fit: cover;">
+      </div>
+
+      <!-- Login Form Section -->
+      <div class="col-md-6 p-5">
+
+        <h3 class="text-center text-primary mb-2">Welcome Back</h3>
+        <p class="text-center text-muted mb-4">Login to your account</p>
+
+        <h6 class="text-success text-center">${success}</h6>
+
+        <form action="login" method="post">
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label"><i class="bi bi-envelope"></i> Email</label>
+            <input type="email" class="form-control" placeholder="Enter your email"
+                   name="email" id="email" onblur="checkEmail()" value="${enteredEmail}">
+            <span id="emailExists"></span>
           </div>
-        </div>
-      </header>
 
-      <div class="container mt-5">
-        <div class="row">
-          <!-- Left Column: Carousel -->
-          <div class="col-md-6">
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img
-                    src="https://tse3.mm.bing.net/th?id=OIP.OmzVkphEnjBkUIyGvRPj4gHaD-&pid=Api&P=0&h=180"
-                    class="d-block w-100" alt="..." style="height: 100%;">
-                </div>
-
-              </div>
-            </div>
+          <!-- Password -->
+          <div class="mb-3">
+            <label class="form-label"><i class="bi bi-lock"></i> Password</label>
+            <input type="password" class="form-control" placeholder="Enter your password" name="password">
+            <h6 style="color: red;text-align: center;">${loginErrMsg}</h6>
           </div>
 
-
-          <div class="col-md-4 offset-md-1">
-            <div class="card mb-3" style="width: 20rem;">
-              <div class="card-header text-center bg-primary text-white">
-                <h5>User Login</h5> <!-- Title inside the card -->
-              </div>
-              <div class="p-3 bg-light">
-                <div class="card-body">
-                  <h6 style="color: green;text-align: center;">${success}</h6>
-                  <form action="login" method="post">
-                    <div class="mb-3">
-                      <label for="formGroupExampleInput2" class="form-label">Email</label>
-                      <input type="email" class="form-control" placeholder="Enter your email" name="email" id="email"
-                        onblur="checkEmail()" value="${enteredEmail}">
-                      <span id="emailExists"></span>
-                    </div>
-                    <div class="mb-3">
-                      <label for="inputPassword5" class="form-label">Password</label>
-                      <input type="password" class="form-control" placeholder="Enter your password" name="password">
-                      <h6 style="color: red;text-align: center;">${loginErrMsg}</h6>
-                    </div>
-                    <div class="text-center">
-                      <div class="col-12">
-                        <button type="submit" class="btn btn-primary" id="button">Login</button>
-                      </div>
-    <a href="forgotPassword" style="text-decoration: none;">Forgotten Password?</a>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
+          <!-- Login Button -->
+          <div class="d-grid mb-3">
+            <button type="submit" class="btn btn-primary" id="button">
+              <i class="bi bi-box-arrow-in-right"></i> Login
+            </button>
           </div>
-        </div>
 
-
-        </div>
-
-
-     <footer class="bg-dark text-white text-center py-3 fixed-bottom border-top">
-          <div class="container-fluid">
-            <p class="mb-0">Copyright &copy; 2025, All Rights Reserved</p>
+          <!-- Forgot Password -->
+          <div class="text-center">
+            <a href="forgotPassword" class="text-decoration-none">Forgot Password?</a>
           </div>
-        </footer>
 
+        </form>
+      </div>
+    </div>
+  </div>
 
-      <script>
-        const checkEmail = async () => {
-          let emailId = document.getElementById("email").value
-          var button = document.getElementById("button");
-          const response = await axios("http://localhost:8080/news/isEmailExists?email=" + emailId)
-          if (emailId.length < 5) {
-            document.getElementById("emailExists").innerHTML = "<span style='color:red;'>invalid email</span>";
-            button.setAttribute("disabled", "");
-          } else if (response.data == "email already exists") {
-            document.getElementById("emailExists").innerHTML = "<span style='color:green;'>email_accepted</span>";
-            button.removeAttribute("disabled");
-          } else {
-            document.getElementById("emailExists").innerHTML = "<span style='color:red;'>email not exists</span>";
-            button.setAttribute("disabled", "");
-          }
-          console.log(response.data)
-        }
-      </script>
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-2">
+    <small>© 2025 All Rights Reserved</small>
+  </footer>
 
+  <!-- Your Original JS (UNCHANGED) -->
+  <script>
+    const checkEmail = async () => {
+      let emailId = document.getElementById("email").value
+      var button = document.getElementById("button");
+      const response = await axios("http://localhost:8080/news/isEmailExists?email=" + emailId)
 
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-        crossorigin="anonymous"></script>
-    </body>
+      if (emailId.length < 5) {
+        document.getElementById("emailExists").innerHTML = "<span style='color:red;'>invalid email</span>";
+        button.setAttribute("disabled", "");
+      } else if (response.data == "email already exists") {
+        document.getElementById("emailExists").innerHTML = "<span style='color:green;'>email_accepted</span>";
+        button.removeAttribute("disabled");
+      } else {
+        document.getElementById("emailExists").innerHTML = "<span style='color:red;'>email not exists</span>";
+        button.setAttribute("disabled", "");
+      }
+      console.log(response.data)
+    }
+  </script>
 
-    </html>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
